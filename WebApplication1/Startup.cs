@@ -40,13 +40,17 @@ namespace WebApplication1
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddDefaultUI()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
 
 
             services.AddMvc(obj =>
@@ -59,17 +63,19 @@ namespace WebApplication1
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin", policy =>
-                       policy.RequireRole("Admin"));
+            options.AddPolicy("Admin", policy =>
+                   policy.RequireRole("Admin"));
 
                 options.AddPolicy("Coach", policy =>
                 policy.RequireRole("Admin", "Coach"));
+            //policy.RequireClaim("CoachID"));
 
                 options.AddPolicy("Member", policy =>
                 policy.RequireRole("Admin", "Member"));
             });
         }
 
+    
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

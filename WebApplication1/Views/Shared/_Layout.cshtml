@@ -26,14 +26,50 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication1</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Anyone4Tennis</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+
+
+
+
+
+                    <!-- This should be should be like this ......... If I'm a coach Take me to only my profile (to create/edit), if I'm a member I can see the coach profiles, if im admin then below is
+    correct -->
+
+
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="Index">Coaches</a></li>
+                        <li><a asp-area="" asp-controller="ScheduleMembers" asp-action="Index">Members</a></li>
+
+                    }
+
+
+
+                    @if (User.IsInRole("Member"))
+                    {
+
+                        <li> <a asp-area="" asp-controller="ScheduleMembers" asp-action="Index">My Schedule</a></li>          
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="Index">Coaches</a></li>
+
+                    }
+
+
+                    @if (User.IsInRole("Coach"))
+                    {
+                        <li><a asp-area="" asp-controller="Coaches" asp-action="Details" asp-route-id="@User.Identity.Name">My Profile</a></li>
+                    }
+
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
+
+
+
                 <partial name="_LoginPartial" />
             </div>
         </div>
@@ -45,7 +81,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - WebApplication1</p>
+            <p>&copy; 2019 - Anyone4Tennis</p>
         </footer>
     </div>
 
@@ -71,5 +107,6 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

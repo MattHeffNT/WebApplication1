@@ -1,0 +1,60 @@
+﻿@model WebApplication1.Models.Coach
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+@*Some condition checking so that coaches can't edit other coach profiles*@
+
+@if (User.Identity.Name != Model.Email & User.IsInRole("Coach"))
+{
+    <br />
+    <strong style="color:red;">Sorry you don't have access to this profile</strong>
+}
+
+
+@*if signed in username is same as the profile page or is a member user then show details*@ 
+
+@if (User.Identity.Name == Model.Email | User.IsInRole("Member"))
+{
+
+    <h1 style="margin-left:15%;">Coach</h1>
+    <hr />
+
+    <dl class="dl-horizontal">
+
+            <br />
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Biography)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Biography)
+            </dd>
+
+
+</dl>
+
+<div>
+    @if (User.IsInRole("Coach") | (User.IsInRole("Admin")))
+    {
+        <button type="button" class="btn btn-primary" style="margin-left: 10%;"><a asp-action="Edit" asp-route-id="@Model.Id" style="color:white;">Edit</a></button>
+        <br />
+    }
+
+    @if (User.IsInRole("Member") | (User.IsInRole("Admin")))
+    {
+        <a asp-action="Index">Back to List</a>
+    }
+
+    <img src="@Html.DisplayFor(model => model.PhotoUrl)" style="width:100%;" />
+
+</div>
+}

@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebApplication1.Models.ScheduleMembers>
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h2>Index</h2>
+
+
+
+<!-- conditionals so that create a coach can only be done by right authorization-->
+
+<p><strong style="color:red;"> need to add link so that coaches can view their schedules</strong></p>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Memb er email
+            </th>
+
+            <th>
+                Schdule Id
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            @if (User.Identity.Name == item.MemberEmail & User.IsInRole("Member"))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberEmail)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScheduleId)
+                    </td>
+
+                    <td>
+
+                        <!-- fix code so that only the relevant Coach-ID can edit their profile -->
+                        <!-- Add to Cart (schedule Coach) viewable/actionable only for members -->
+                        <!-- Add "view my schedule" for coaches -->
+
+                        @if (User.IsInRole("Admin"))
+                        {
+
+                            <!--if singed in username (aka the email) == the same the model username coach can edit my details-->
+
+                            <!-- if (User.Identity.IsAuthenticated)-->
+
+
+
+                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+
+
+                                <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a>*@
+
+                        }
+
+
+
+
+                    </td>
+
+
+                </tr>
+            }
+        }
+
+        @foreach (var item in Model.GroupBy(m => m.ScheduleId).Select(g => g.First()))
+        {
+
+            @if (User.Identity.Name != item.MemberEmail & User.IsInRole("Member"))
+            {
+            <td>
+                @Html.DisplayFor(modelItem => item.ScheduleId)
+            </td>
+        }
+
+        }
+        </tbody>
+    </table>

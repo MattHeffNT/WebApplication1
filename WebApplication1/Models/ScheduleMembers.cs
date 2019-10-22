@@ -12,6 +12,6 @@ namespace WebApplication1.Models
         [Column("ScheduleID")]
         public int ScheduleId { get; set; }
         public string MemberEmail { get; set; }
-        public string Description { get; set; }
+    //  public string Description { get; set; }
     }
 }

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApplication1.Models.ScheduleMembers>
+
+@using Microsoft.AspNetCore.Identity
+
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+
+<h2>Index</h2>
+
+
+<!-- need to fix this so that only Admin can see it/ also move this functionality to "register as a new coach" or something similar-->
+<!-- <a asp-action="Create"></a> -->
+
+<table class="table">
+
+
+    <thead>
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ScheduleId)
+                </th>*@
+
+            <th>
+                Schedule
+            </th>
+            <th>
+                Schedule Details
+            </th>
+
+
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+
+
+
+
+        @* @foreach (var item in Model.GroupBy(m => m.MemberEmail).Select(g => g.First()))*@
+
+        @foreach (var item in Model)
+
+        {
+
+
+
+            <!--Get only the schedule of the logged in member-->
+            @if (User.Identity.Name == item.MemberEmail & User.IsInRole("Member"))
+
+
+
+            {
+
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberEmail)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScheduleId)
+                    </td>
+
+                    <td>
+
+
+            
+
+
+                        <a asp-area="" asp-controller="Schedule" asp-action="Index" asp-route-id="@item.ScheduleId"> Details </a>
+
+
+
+
+                    </td>
+
+                </tr>
+            }
+
+
+        }
+
+
+        </tbody>
+    </table>

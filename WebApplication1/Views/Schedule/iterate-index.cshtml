@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebApplication1.Models.Schedule>
+
+
+@using Microsoft.AspNetCore.Identity
+
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+
+<h2>Schedule</h2>
+
+
+<!-- need to fix this so that only Admin can see it/ also move this functionality to "register as a new coach" or something similar-->
+<!-- <a asp-action="Create"></a> -->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.When)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CoachEmail)
+            </th>
+            <th>
+                Coach Profile
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.When)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoachEmail)
+                </td>
+
+                <td>
+
+                    <a asp-area="" asp-controller="Coaches" asp-action="Details" asp-route-id="@item.CoachEmail"> Coach Profile Link</a>
+                </td>
+
+
+
+
+                <td>
+
+                    <!-- fix code so that only the relevant Member-ID can edit their profile -->
+                    @*
+                    <a asp-area="" asp-controller="Schedule" asp-action="Index" asp-route-id="@Model.Id">Enrol</a>
+                    <a asp-area="Edit" asp-action="" asp-route-id="@Model.Id">Edit</a>
+                    <a asp-area="Delete" asp-action="" asp-route-id="@Model.Id">Delete</a>
+                    *@
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>
